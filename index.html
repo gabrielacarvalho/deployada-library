@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Deployada · Livros</title>
+<meta name="description" content="Livros gratuitos para mulheres em tecnologia. Leia online e baixe em PDF e EPUB.">
+<meta property="og:title" content="Deployada · Livros">
+<meta property="og:description" content="Livros gratuitos para mulheres em tecnologia. Leia online e baixe em PDF e EPUB.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#ff3d8b">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Figtree:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body { margin: 0; -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+
+/* Layout: sticker-bomb terminal. Hero = headline + release pipeline; then a bookshelf grid; about; footer. */
+:root {
+  --bg: #fff4f8;
+  --surface: #ffffff;
+  --ink: #2a1030;
+  --muted: #7a5675;
+  --line: #f3cfe0;
+  --pink: #ff3d8b;
+  --pink-ink: #ffffff;
+  --mint: #12b98f;
+  --butter: #ffd84d;
+  --term-bg: #2a1030;
+  --term-fg: #fde9f3;
+  --term-dim: #b48fb0;
+  --cover-ink: #2a1030;
+  --code-op: 0.09;
+  --shadow: 0 2px 0 var(--ink);
+  --font-display: "Bagel Fat One", "Arial Rounded MT Bold", system-ui, sans-serif;
+  --font-body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1a0c1d; --surface: #26132a; --ink: #fde9f3; --muted: #c9a5c3; --line: #432446;
+    --pink: #ff5ea0; --pink-ink: #1a0c1d; --mint: #3fe0b4; --butter: #ffe066;
+    --term-bg: #0e0610; --term-fg: #fde9f3; --term-dim: #a07f9c; --code-op: 0.13;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1a0c1d; --surface: #26132a; --ink: #fde9f3; --muted: #c9a5c3; --line: #432446;
+  --pink: #ff5ea0; --pink-ink: #1a0c1d; --mint: #3fe0b4; --butter: #ffe066;
+  --term-bg: #0e0610; --term-fg: #fde9f3; --term-dim: #a07f9c; --code-op: 0.13;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  padding-inline: 20px;
+}
+.wrap { max-width: 1080px; margin-inline: auto; position: relative; z-index: 1; }
+
+/* Java code texture behind everything */
+.code-bg {
+  position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; user-select: none;
+  opacity: var(--code-op);
+  display: flex; gap: 90px;
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 70%, transparent 100%);
+          mask-image: linear-gradient(180deg, #000 0%, #000 70%, transparent 100%);
+}
+.code-bg pre {
+  margin: 0; padding: 24px 0 0 4vw; flex: none; font: 500 15px/1.75 var(--font-mono); color: var(--ink); white-space: pre;
+  transform: rotate(-4deg); transform-origin: 0 0;
+}
+.code-bg .k { color: var(--pink); font-weight: 600; }
+.code-bg .s { color: var(--mint); }
+.code-bg .c, .code-bg .a { color: var(--muted); font-style: italic; }
+.code-bg .n { color: var(--butter); }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--pink); outline-offset: 3px; border-radius: 6px; }
+
+/* Header */
+header.top {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding-block: 22px;
+}
+.logo {
+  font-family: var(--font-display); font-size: 1.6rem; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 8px; letter-spacing: 0.01em;
+}
+.logo .dot { color: var(--pink); }
+.logo svg { width: 26px; height: 26px; }
+nav.links { display: flex; gap: 18px; font-weight: 700; font-size: 0.95rem; }
+nav.links a { text-decoration: none; }
+nav.links a:hover { color: var(--pink); }
+
+/* Hero */
+.hero {
+  display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center;
+  padding-block: 28px 56px;
+}
+.hero > * { min-width: 0; }
+.eyebrow {
+  font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--surface); border: 2px solid var(--ink); border-radius: 999px;
+  padding: 4px 12px; box-shadow: var(--shadow);
+}
+.eyebrow .led { width: 8px; height: 8px; border-radius: 50%; background: var(--mint); }
+h1 {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(2.5rem, 6.4vw, 4.6rem); line-height: 0.98; letter-spacing: -0.01em;
+  margin: 18px 0 18px; text-wrap: balance;
+}
+h1 .hl {
+  color: var(--pink-ink); background: var(--pink); padding: 0 0.18em; border-radius: 0.2em;
+  display: inline-block; transform: rotate(-2deg);
+}
+.lede { font-size: 1.15rem; color: var(--muted); max-width: 46ch; margin: 0 0 26px; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.btn {
+  font: 700 1rem var(--font-body); cursor: pointer; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 8px;
+  border: 2px solid var(--ink); border-radius: 14px; padding: 12px 20px;
+  background: var(--pink); color: var(--pink-ink); box-shadow: 0 4px 0 var(--ink);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 0 6px 0 var(--ink); }
+.btn:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--ink); }
+.btn.ghost { background: var(--surface); color: var(--ink); }
+.fine { font-family: var(--font-mono); font-size: 0.8rem; color: var(--muted); }
+
+/* Terminal */
+.term-wrap { position: relative; }
+.term {
+  background: var(--term-bg); color: var(--term-fg);
+  border: 2px solid var(--ink); border-radius: 18px; box-shadow: 8px 8px 0 var(--pink);
+  font-family: var(--font-mono); font-size: 0.88rem; overflow: hidden;
+  transform: rotate(1.5deg);
+}
+.term-bar { display: flex; gap: 7px; padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,.1); align-items: center; }
+.term-bar i { width: 11px; height: 11px; border-radius: 50%; display: block; background: var(--pink); }
+.term-bar i:nth-child(2) { background: var(--butter); }
+.term-bar i:nth-child(3) { background: var(--mint); }
+.term-bar span { margin-left: auto; color: var(--term-dim); font-size: 0.75rem; }
+.term pre { margin: 0; padding: 16px 18px 20px; white-space: pre-wrap; word-break: break-word; line-height: 1.75; font: inherit; }
+.t-dim { color: var(--term-dim); }
+.t-ok { color: var(--mint); }
+.t-pink { color: var(--pink); }
+.t-butter { color: var(--butter); }
+.cursor { display: inline-block; width: 0.6em; height: 1.1em; background: var(--pink); vertical-align: -0.2em; animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.sticker {
+  position: absolute; display: grid; place-items: center; text-align: center;
+  font-family: var(--font-display); color: var(--cover-ink);
+  border: 2px solid var(--ink); box-shadow: 3px 3px 0 var(--ink);
+}
+.sticker.s1 { width: 92px; height: 92px; border-radius: 50%; background: var(--butter); top: -34px; right: -14px; transform: rotate(14deg); font-size: 0.95rem; line-height: 1; }
+.sticker.s2 { background: var(--mint); border-radius: 12px; padding: 6px 12px; bottom: -18px; left: -10px; transform: rotate(-7deg); font-size: 0.9rem; }
+
+/* Section heads */
+section { padding-block: 40px; }
+.sec-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 26px; }
+h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(1.9rem, 4vw, 2.6rem); line-height: 1.05; margin: 0; text-wrap: balance; }
+.sec-head p { margin: 6px 0 0; color: var(--muted); }
+.example-note {
+  font-family: var(--font-mono); font-size: 0.78rem; background: var(--butter); color: var(--cover-ink);
+  border: 2px dashed var(--cover-ink); border-radius: 10px; padding: 6px 10px;
+}
+
+/* Shelf */
+.shelf { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px; }
+.book {
+  background: var(--surface); border: 2px solid var(--ink); border-radius: 22px;
+  box-shadow: 0 5px 0 var(--ink); padding: 18px; display: flex; flex-direction: column; gap: 14px;
+}
+.cover {
+  aspect-ratio: 3 / 4; max-width: 100%; border-radius: 6px 14px 14px 6px; border: 2px solid var(--ink);
+  position: relative; overflow: hidden; padding: 20px 18px 18px 30px;
+  display: flex; flex-direction: column; justify-content: space-between; color: var(--cover-ink);
+  transition: transform .25s cubic-bezier(.3,1.6,.5,1);
+}
+.cover::before { /* spine */
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 14px;
+  background: rgba(0,0,0,.14); border-right: 2px solid rgba(0,0,0,.25);
+}
+.book:hover .cover { transform: rotate(-2.5deg) translateY(-4px); }
+.cover .ver { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+.cover .ct { font-family: var(--font-display); font-size: clamp(1.6rem, 3vw, 2.1rem); line-height: 1; text-wrap: balance; }
+.cover .au { font-weight: 800; font-size: 0.85rem; letter-spacing: .04em; }
+.cover .badge {
+  position: absolute; right: 12px; top: 34px; width: 66px; height: 66px; border-radius: 50%;
+  background: var(--surface); color: var(--ink); border: 2px solid var(--ink);
+  display: grid; place-items: center; font-family: var(--font-display); font-size: 0.8rem;
+  transform: rotate(12deg); text-align: center; line-height: 1;
+}
+.cover svg.deco { position: absolute; right: -10px; bottom: -10px; width: 120px; height: 120px; opacity: .9; }
+.c-pink { background: #ff7fb0; }
+.c-mint { background: #6fe3c2; }
+.c-butter { background: #ffd84d; }
+
+.book h3 { font-size: 1.2rem; font-weight: 800; margin: 0; line-height: 1.2; }
+.book .desc { margin: 0; color: var(--muted); font-size: 0.95rem; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px; font-family: var(--font-mono); font-size: 0.74rem; }
+.meta span { border: 1.5px solid var(--line); border-radius: 999px; padding: 2px 9px; font-variant-numeric: tabular-nums; }
+.dl { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: auto; }
+.dl .btn { justify-content: center; padding: 10px 10px; font-size: 0.92rem; border-radius: 12px; box-shadow: 0 3px 0 var(--ink); flex-direction: column; gap: 0; line-height: 1.15; }
+.dl .btn small { font-family: var(--font-mono); font-weight: 400; font-size: 0.7rem; opacity: .85; }
+.dl .btn.epub { background: var(--mint); color: var(--cover-ink); }
+.dl .btn[aria-busy="true"] { opacity: .6; pointer-events: none; }
+
+/* About */
+.about {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start;
+  background: var(--surface); border: 2px solid var(--ink); border-radius: 26px; box-shadow: 0 6px 0 var(--ink);
+  padding: 34px;
+}
+.about > * { min-width: 0; }
+.about p { margin: 0 0 14px; max-width: 60ch; }
+.values { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.values li { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: start; }
+.values .ic { width: 36px; height: 36px; border-radius: 10px; border: 2px solid var(--ink); display: grid; place-items: center; font-family: var(--font-mono); font-weight: 600; font-size: 0.85rem; color: var(--cover-ink); }
+.values b { display: block; }
+.values span.t { color: var(--muted); font-size: 0.93rem; }
+
+/* Author */
+.author { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 48px; align-items: center; }
+.author > * { min-width: 0; }
+.polaroid {
+  position: relative; background: var(--surface); border: 2px solid var(--ink); border-radius: 18px;
+  padding: 14px 14px 52px; box-shadow: 8px 8px 0 var(--mint); transform: rotate(-3deg);
+  max-width: 400px; margin-inline: auto; width: 100%;
+}
+.polaroid img { display: block; width: 100%; height: auto; aspect-ratio: 10 / 11; object-fit: cover; border-radius: 10px; border: 2px solid var(--ink); }
+.polaroid .cap {
+  position: absolute; left: 0; right: 0; bottom: 14px; text-align: center;
+  font-family: var(--font-display); font-size: 1.15rem;
+}
+.polaroid .sticker.s3 { top: -22px; right: -18px; background: var(--butter); border-radius: 999px; padding: 6px 14px; transform: rotate(10deg); font-size: 0.9rem; }
+.polaroid .sticker.s4 { bottom: 70px; left: -22px; background: var(--pink); color: var(--pink-ink); border-radius: 12px; padding: 6px 12px; transform: rotate(-9deg); font-size: 0.85rem; }
+.author .kicker { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--pink); font-weight: 600; }
+.author h2 { margin: 6px 0 18px; }
+.author p { margin: 0 0 14px; max-width: 62ch; }
+.whoami {
+  background: var(--term-bg); color: var(--term-fg); border: 2px solid var(--ink); border-radius: 14px;
+  font-family: var(--font-mono); font-size: 0.82rem; padding: 14px 16px; margin: 20px 0 22px; line-height: 1.7;
+  overflow-x: auto;
+}
+.whoami dl { margin: 6px 0 0; display: grid; grid-template-columns: auto 1fr; gap: 2px 14px; }
+.whoami dt { color: var(--butter); }
+.whoami dd { margin: 0; min-width: 0; }
+.socials { display: flex; flex-wrap: wrap; gap: 10px; }
+.socials a {
+  display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 700; font-size: 0.92rem;
+  background: var(--surface); border: 2px solid var(--ink); border-radius: 999px; padding: 7px 14px; box-shadow: 0 3px 0 var(--ink);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.socials a:hover { transform: translateY(-2px); box-shadow: 0 5px 0 var(--ink); }
+.socials svg { width: 18px; height: 18px; flex: none; }
+@media (max-width: 880px) { .author { grid-template-columns: 1fr; gap: 40px; } }
+@media (max-width: 560px) { .polaroid .sticker.s3 { right: -6px; } .polaroid .sticker.s4 { left: -8px; } }
+
+footer {
+  padding-block: 36px 48px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between;
+  font-family: var(--font-mono); font-size: 0.8rem; color: var(--muted);
+}
+
+/* Toast */
+.toast {
+  position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%);
+  background: var(--term-bg); color: var(--term-fg); border: 2px solid var(--ink); border-radius: 12px;
+  padding: 10px 16px; font-family: var(--font-mono); font-size: 0.85rem; box-shadow: 4px 4px 0 var(--pink);
+  max-width: calc(100% - 32px); z-index: 10;
+}
+
+@media (max-width: 880px) {
+  .hero { grid-template-columns: 1fr; gap: 48px; }
+  .shelf { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .about { grid-template-columns: 1fr; padding: 24px; }
+}
+@media (max-width: 560px) {
+  body { padding-inline: 16px; }
+  nav.links { gap: 12px; font-size: 0.88rem; }
+  .shelf { grid-template-columns: 1fr; }
+  .sticker.s1 { right: 4px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cursor { animation: none; }
+  .cover, .btn { transition: none; }
+}
+
+/* Site version extras */
+.cover.has-img { padding: 0; }
+.cover.has-img img, .cover.has-img canvas { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+.cover.has-img::before { display: none; }
+a.btn { text-align: center; }
+.read { font-weight: 700; font-size: 0.9rem; text-align: center; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+.read:hover { color: var(--pink); }
+.dl.one { grid-template-columns: 1fr; }
+</style>
+</head>
+<body>
+<div class="code-bg" aria-hidden="true"><pre><span class="c">// Deployada.java · feito com carinho</span>
+<span class="k">package</span> br.com.deployada;
+
+<span class="k">import</span> java.util.List;
+<span class="k">import</span> java.time.LocalDate;
+
+<span class="k">public class</span> Deployada <span class="k">implements</span> Comunidade {
+
+    <span class="k">private final</span> List&lt;Livro&gt; estante = List.of(
+        <span class="k">new</span> Livro(<span class="s">"Meu Primeiro Deploy"</span>, Formato.PDF, Formato.EPUB),
+        <span class="k">new</span> Livro(<span class="s">"Git Sem Medo"</span>, Formato.PDF, Formato.EPUB),
+        <span class="k">new</span> Livro(<span class="s">"Sudo Sou Eu"</span>, Formato.PDF, Formato.EPUB)
+    );
+
+    <span class="a">@Override</span>
+    <span class="k">public</span> Release deploy(Mulher dev) {
+        <span class="k">if</span> (dev.temMedo()) {
+            dev.respira();
+            dev.lembra(<span class="s">"você pertence a esse lugar"</span>);
+        }
+        <span class="k">return</span> Release.builder()
+            .autora(<span class="s">"Gabriela Carvalho"</span>)
+            .ambiente(Ambiente.PRODUCAO)
+            .data(LocalDate.now())
+            .gatekeepers(<span class="n">0</span>)
+            .build();
+    }
+
+    <span class="k">public boolean</span> podeFazerDeployNaSexta() {
+        <span class="k">return true</span>; <span class="c">// e daí?</span>
+    }
+
+    <span class="k">private void</span> compartilhar(Livro livro) {
+        estante.stream()
+            .filter(Livro::gratis)
+            .forEach(l -&gt; amigas.forEach(a -&gt; a.envia(l)));
+    }
+
+    <span class="a">@Scheduled</span>(cron = <span class="s">"0 8 * * MON"</span>)
+    <span class="k">public void</span> planejarSemana() {
+        agendaDePapel.abre();
+        tarefas.sort(Comparator.comparing(Tarefa::prioridade));
+    }
+
+    <span class="k">public static void</span> main(String[] args) {
+        <span class="k">var</span> gabi = <span class="k">new</span> Dev(<span class="s">"Gabi"</span>, Stack.JAVA, Stack.PYTHON, Stack.SQL);
+        <span class="k">var</span> pets = <span class="n">6</span>;
+        <span class="k">try</span> {
+            <span class="k">new</span> Deployada().deploy(gabi);
+        } <span class="k">catch</span> (SindromeDaImpostoraException e) {
+            log.info(<span class="s">"ignorado com sucesso ✨"</span>);
+        } <span class="k">finally</span> {
+            System.out.println(<span class="s">"girls ship it ♥"</span>);
+        }
+    }
+}
+</pre>
+<pre><span class="c">// Deployada.java · feito com carinho</span>
+<span class="k">package</span> br.com.deployada;
+
+<span class="k">import</span> java.util.List;
+<span class="k">import</span> java.time.LocalDate;
+
+<span class="k">public class</span> Deployada <span class="k">implements</span> Comunidade {
+
+    <span class="k">private final</span> List&lt;Livro&gt; estante = List.of(
+        <span class="k">new</span> Livro(<span class="s">"Meu Primeiro Deploy"</span>, Formato.PDF, Formato.EPUB),
+        <span class="k">new</span> Livro(<span class="s">"Git Sem Medo"</span>, Formato.PDF, Formato.EPUB),
+        <span class="k">new</span> Livro(<span class="s">"Sudo Sou Eu"</span>, Formato.PDF, Formato.EPUB)
+    );
+
+    <span class="a">@Override</span>
+    <span class="k">public</span> Release deploy(Mulher dev) {
+        <span class="k">if</span> (dev.temMedo()) {
+            dev.respira();
+            dev.lembra(<span class="s">"você pertence a esse lugar"</span>);
+        }
+        <span class="k">return</span> Release.builder()
+            .autora(<span class="s">"Gabriela Carvalho"</span>)
+            .ambiente(Ambiente.PRODUCAO)
+            .data(LocalDate.now())
+            .gatekeepers(<span class="n">0</span>)
+            .build();
+    }
+
+    <span class="k">public boolean</span> podeFazerDeployNaSexta() {
+        <span class="k">return true</span>; <span class="c">// e daí?</span>
+    }
+
+    <span class="k">private void</span> compartilhar(Livro livro) {
+        estante.stream()
+            .filter(Livro::gratis)
+            .forEach(l -&gt; amigas.forEach(a -&gt; a.envia(l)));
+    }
+
+    <span class="a">@Scheduled</span>(cron = <span class="s">"0 8 * * MON"</span>)
+    <span class="k">public void</span> planejarSemana() {
+        agendaDePapel.abre();
+        tarefas.sort(Comparator.comparing(Tarefa::prioridade));
+    }
+
+    <span class="k">public static void</span> main(String[] args) {
+        <span class="k">var</span> gabi = <span class="k">new</span> Dev(<span class="s">"Gabi"</span>, Stack.JAVA, Stack.PYTHON, Stack.SQL);
+        <span class="k">var</span> pets = <span class="n">6</span>;
+        <span class="k">try</span> {
+            <span class="k">new</span> Deployada().deploy(gabi);
+        } <span class="k">catch</span> (SindromeDaImpostoraException e) {
+            log.info(<span class="s">"ignorado com sucesso ✨"</span>);
+        } <span class="k">finally</span> {
+            System.out.println(<span class="s">"girls ship it ♥"</span>);
+        }
+    }
+}
+</pre></div>
+
+<div class="wrap">
+  <header class="top">
+    <a class="logo" href="#topo" id="topo" aria-label="Deployada, início">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.5-9.2C1 8.2 3.2 4.5 6.9 4.5c2.1 0 3.6 1.1 5.1 3 1.5-1.9 3-3 5.1-3 3.7 0 5.9 3.7 4.4 7.3C19.5 16.4 12 21 12 21z" fill="var(--pink)" stroke="var(--ink)" stroke-width="1.8"/></svg>
+      deployada<span class="dot">.</span>
+    </a>
+    <nav class="links" aria-label="Seções">
+      <a href="#livros">Livros</a>
+      <a href="#autora">Autora</a>
+      <a href="#sobre">Sobre</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="hero">
+      <div>
+        <span class="eyebrow"><span class="led"></span>biblioteca aberta · pdf + epub</span>
+        <h1>Livros pra mulher que <span class="hl">faz deploy</span> em produção.</h1>
+        <p class="lede">Guias escritos por uma dev back-end pra quem está entrando, mudando de carreira ou já sobe código toda sexta. Leia online no seu ritmo e baixe grátis.</p>
+        <div class="cta-row">
+          <a class="btn" href="#livros">Ver os livros ↓</a>
+          <a class="btn ghost" href="#sobre">Quem é a Deployada</a>
+        </div>
+      </div>
+
+      <div class="term-wrap" aria-label="Terminal decorativo mostrando o lançamento dos livros">
+        <div class="term">
+          <div class="term-bar"><i></i><i></i><i></i><span>~/deployada</span></div>
+<pre><span class="t-dim">$</span> deployada release --livros --prod
+<span class="t-dim">→ empacotando pdf e epub...</span>
+<span class="t-ok">✓</span> build passing
+<span class="t-ok">✓</span> <span id="count">3</span> livros publicados
+<span class="t-ok">✓</span> 0 gatekeepers encontrados
+<span class="t-pink">♥</span> deploy feito com carinho
+<span class="t-butter">★</span> sexta-feira? <span class="t-ok">sim, e daí.</span>
+<span class="t-dim">$</span> <span class="cursor"></span></pre>
+        </div>
+        <div class="sticker s1">grátis<br>pra<br>sempre</div>
+        <div class="sticker s2">girls ship it</div>
+      </div>
+    </div>
+
+    <section id="livros" aria-labelledby="livros-h">
+      <div class="sec-head">
+        <div>
+          <h2 id="livros-h">A estante</h2>
+          <p>Escolha o formato. PDF pra ler no computador, EPUB pro Kindle e leitores digitais.</p>
+        </div>
+              </div>
+      <div class="shelf" id="shelf"></div>
+    </section>
+
+    <section id="autora" aria-labelledby="autora-h">
+      <div class="author">
+        <figure class="polaroid" style="margin:0 auto">
+          <img src="img/gabriela.jpg" alt="Foto de Gabriela Carvalho, de óculos e batom vermelho" width="800" height="880">
+          <figcaption class="cap">Gabi ♥</figcaption>
+          <span class="sticker s3">mãe de 6 pets</span>
+          <span class="sticker s4">back-end dev</span>
+        </figure>
+        <div>
+          <span class="kicker">quem escreve</span>
+          <h2 id="autora-h">Oi, eu sou a Gabriela Carvalho.</h2>
+          <p>Trabalho com tecnologia desde 2018. Comecei como analista e dev SQL, focada em banco de dados, e depois migrei para o back-end com Java e Python. Já fui engenheira de software no Itaú e hoje sou dev back-end na Caixa Econômica Federal.</p>
+          <p>Criei a Deployada porque quase todo conteúdo de tecnologia é escrito por homens, com exemplos do cotidiano deles. Aqui eu explico os mesmos conceitos com exemplos do dia a dia das mulheres.</p>
+          <p>Também colaboro com a comunidade tech na organização do DevFest POA e do DevOpsDays POA. Fora do código, leio, toco teclado, faço dança contemporânea e artesanato. E toda semana começa do mesmo jeito: planejando tudo numa agenda de papel.</p>
+          <div class="whoami" aria-label="Resumo da formação">
+            <span style="color:var(--term-dim)">$</span> whoami
+            <dl>
+              <dt>formação</dt><dd>Bacharelado em Ciência da Computação</dd>
+              <dt>pós</dt><dd>Ciência de Dados · Engenharia de Software · Arquitetura em Cloud Computing</dd>
+              <dt>stack</dt><dd>Java · Python · SQL</dd>
+              <dt>em tech desde</dt><dd>2018</dd>
+            </dl>
+          </div>
+          <div class="socials">
+            <a href="https://www.instagram.com/deployada" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@deployada</a>
+            <a href="https://www.linkedin.com/in/mgcarvalho" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"/></svg>LinkedIn</a>
+            <a href="https://github.com/gabrielacarvalho" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 19c-4 1.5-4-2-6-2.5M15 21v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1-.3-3.4 1.3a11.6 11.6 0 0 0-6 0C6.8 2.8 5.8 3.1 5.8 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4.4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>GitHub</a>
+            <a href="https://www.linkedin.com/in/mgcarvalho" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 5h16v14H4z"/><path d="M4 6l8 6 8-6"/></svg>Newsletter Deployada</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="sobre" aria-labelledby="sobre-h">
+      <div class="about">
+        <div>
+          <h2 id="sobre-h">Sobre a Deployada</h2>
+          <p style="margin-top:16px">A Deployada é um espaço para mulheres em tecnologia aprenderem, trocarem e subirem pra produção sem pedir licença.</p>
+          <p>Todos os livros daqui são de autoria própria e ficam disponíveis de graça. Se algum te ajudou, manda pra uma amiga que está começando.</p>
+        </div>
+        <ul class="values">
+          <li><span class="ic" style="background:var(--pink)">01</span><div><b>Linguagem sem jargão desnecessário</b><span class="t">Conceito explicado do jeito que a gente queria ter aprendido.</span></div></li>
+          <li><span class="ic" style="background:var(--mint)">pdf</span><div><b>Pra ler onde quiser</b><span class="t">PDF no notebook, EPUB no Kindle, Kobo ou celular.</span></div></li>
+          <li><span class="ic" style="background:var(--butter)">♥</span><div><b>Livre pra compartilhar</b><span class="t">Passe adiante. Conhecimento bom é conhecimento deployado.</span></div></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>© 2026 Gabriela Carvalho · Deployada · deployado com carinho</span>
+    <span>status: <span style="color:var(--mint)">● todos os sistemas operacionais</span></span>
+  </footer>
+</div>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="livros.js"></script>
+<script>
+const CORES = { rosa: "c-pink", menta: "c-mint", amarelo: "c-butter" };
+const DECO = {
+  "c-pink": '<svg class="deco" viewBox="0 0 100 100" aria-hidden="true"><path d="M50 8l9 28h30l-24 18 9 29-24-18-24 18 9-29-24-18h30z" fill="#fff" stroke="#2a1030" stroke-width="3"/></svg>',
+  "c-mint": '<svg class="deco" viewBox="0 0 100 100" aria-hidden="true"><circle cx="30" cy="30" r="9" fill="#fff" stroke="#2a1030" stroke-width="3"/><circle cx="30" cy="75" r="9" fill="#fff" stroke="#2a1030" stroke-width="3"/><circle cx="72" cy="50" r="9" fill="#fff" stroke="#2a1030" stroke-width="3"/><path d="M30 39v27M30 52c0-6 20-2 33-2" fill="none" stroke="#2a1030" stroke-width="3"/></svg>',
+  "c-butter": '<svg class="deco" viewBox="0 0 100 100" aria-hidden="true"><path d="M50 85S18 66 12 46C7 31 16 16 32 16c9 0 14 5 18 12 4-7 9-12 18-12 16 0 25 15 20 30-6 20-38 39-38 39z" fill="#ff7fb0" stroke="#2a1030" stroke-width="3"/></svg>'
+};
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const livros = window.LIVROS || [];
+document.getElementById("count").textContent = livros.length;
+
+function capa(b) {
+  if (b.capa) return `<div class="cover has-img"><img src="${esc(b.capa)}" alt="Capa de ${esc(b.titulo)}" loading="lazy"></div>`;
+  const c = CORES[b.cor] || "c-pink";
+  const auto = b.pdf ? ` data-pdf="livros/${esc(b.slug)}.pdf"` : "";
+  return `<div class="cover ${c}"${auto} aria-hidden="true">
+      <span class="ver">${esc(b.versao)} · deployada</span>
+      <span class="ct">${esc(b.titulo)}</span>
+      <span class="au">por Gabriela Carvalho</span>
+      ${b.selo ? `<span class="badge">${b.selo}</span>` : ""}
+      ${DECO[c]}
+    </div>`;
+}
+
+const shelf = document.getElementById("shelf");
+shelf.innerHTML = livros.map(b => {
+  const btns = [];
+  if (b.pdf) btns.push(`<a class="btn pdf" href="livros/${esc(b.slug)}.pdf" download data-size="livros/${esc(b.slug)}.pdf">Baixar PDF <small>&nbsp;</small></a>`);
+  if (b.epub) btns.push(`<a class="btn epub" href="livros/${esc(b.slug)}.epub" download data-size="livros/${esc(b.slug)}.epub">Baixar EPUB <small>&nbsp;</small></a>`);
+  return `
+  <article class="book">
+    ${capa(b)}
+    <h3>${esc(b.titulo)}</h3>
+    <p class="desc">${esc(b.desc)}</p>
+    <div class="meta">${(b.tags || []).map(t => `<span>${esc(t)}</span>`).join("")}</div>
+    <div class="dl${btns.length === 1 ? " one" : ""}">${btns.join("")}</div>
+    ${b.pdf ? `<a class="read" href="livros/${esc(b.slug)}.pdf" target="_blank" rel="noopener">Ler online</a>` : ""}
+  </article>`;
+}).join("");
+
+// Capa automática: se o livro não tem "capa" no livros.js,
+// usa a primeira página do PDF. Enquanto carrega, mostra a capa desenhada.
+if (window.pdfjsLib) {
+  pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+  const renderCover = async (el) => {
+    try {
+      const pdf = await pdfjsLib.getDocument({ url: el.dataset.pdf, disableAutoFetch: true, disableStream: true }).promise;
+      const page = await pdf.getPage(1);
+      const base = page.getViewport({ scale: 1 });
+      const scale = (el.clientWidth * Math.min(window.devicePixelRatio || 1, 2)) / base.width;
+      const vp = page.getViewport({ scale });
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.ceil(vp.width); canvas.height = Math.ceil(vp.height);
+      await page.render({ canvasContext: canvas.getContext("2d"), viewport: vp }).promise;
+      el.className = "cover has-img";
+      el.replaceChildren(canvas);
+      pdf.destroy();
+    } catch (_) { /* fica a capa desenhada */ }
+  };
+  const io = "IntersectionObserver" in window ? new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { io.unobserve(e.target); renderCover(e.target); } });
+  }, { rootMargin: "300px" }) : null;
+  document.querySelectorAll(".cover[data-pdf]").forEach(el => io ? io.observe(el) : renderCover(el));
+}
+
+// Mostra o tamanho real de cada arquivo
+function fmt(bytes) {
+  if (bytes >= 1048576) return (bytes / 1048576).toFixed(1).replace(".", ",") + " MB";
+  return Math.max(1, Math.round(bytes / 1024)) + " KB";
+}
+document.querySelectorAll("[data-size]").forEach(async a => {
+  try {
+    const r = await fetch(a.dataset.size, { method: "HEAD" });
+    const n = Number(r.headers.get("content-length"));
+    if (r.ok && n) a.querySelector("small").textContent = fmt(n);
+  } catch (_) {}
+});
+</script>
+</body>
+</html>
